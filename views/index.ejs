@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> pt2 </title>
+    <link rel="shortcut icon" href="/images/ipn.png" type="image/x-icon">
+
+    <!--Se añade la libreria de boostrap-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <link rel="stylesheet" href="/stylesheets/Graficas.css">
+
+</head>
+<body>
+    <!--Inicia el Encabezado usando NavBAR-->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light justify-content-center">
+        <a class="navbar-brand"><img src="/images/ipn.png" width="90" height="90" class="logo" alt=""> </a>
+        <div class="collapse navbar-collapse" id="navbarNav" >
+          <ul class="navbar-nav container d-flex flex-md-row text-center justify-content-md-between align-items-center">
+            <h1>Sistema IoT para la visualización de señales asociadas a precursores símicos </h1>
+            <li class="nav-item active">
+            </li>
+          </ul>
+        </div>
+      </nav>
+    <!--Termina el Encabezado-->
+
+
+    <!--Se utiliza dos columnas, una para el formulario y una para las gráficas-->
+    <div class="row g-0">
+        <div class="col-6 col-md-4" >
+            <h4>Interfaz local para graficas señales asociadas a precursores sísmicos</h4>
+            <br>
+            <br>
+            <!--Aqui inicia el Formulario-->
+            <form id="form" action="" method="">
+                <!--Se dan las instrucciones-->
+                <p text>Selecciona las opciones de acuerdo a la gráfica que deseas ver</p>
+                <br>
+                <!---Se pide la fecha-->
+                <p>Fecha: <input type="date" class="fechaesperada" name="Fecha" required></p>
+                
+                <br><br>
+
+                <!--Parte Electromagnética-->
+                <div>
+                 <p>Electromagnéticas</p><br>
+                </div>
+                <div class="form-check">
+                <label><input type="radio" name="electrom" value="1" id="Ch1_Acus"> CH1</label><br>
+                <label><input type="radio" name="electrom" value="2" id="Ch2_Acus"> CH2</label><br>
+                <label><input type="radio" name="electrom" value="3" id="Ch3_Acus" checked> CH3</label><br>
+                <label><input type="radio" name="electrom" value="Clear" id="Clear"> Clear</label>
+                </div>
+                <br><br>
+
+                <!--Parte de Acusticas-->
+                <div>
+                  <p>Acusticas</p><br>
+                </div>
+                <div class="form-check2">
+                <label><input type="radio" name="acustica" value="4" id="Ch1_Acus"> CH1</label><br>
+                <label><input type="radio" name="acustica" value="5" id="Ch2_Acus"> CH2</label><br>
+                <label><input type="radio" name="acustica" value="6" id="Ch3_Acus" checked> CH3</label><br>
+                <label><input type="radio" name="acustica" value="Clear" id="Clear"> Clear</label>
+                </div>
+                <br><br>
+
+
+                    <!--Parte de Geoeléctrica-->
+                <div>
+                  <p>Geoelectricas</p><br>
+                </div>
+                <div class="form-check3">
+                  <label><input type="radio" name="geo" value="electricas" id="Ch1_geo"> CH1</label><br>
+                  <label><input type="radio" name="geo" value="Clear" id="Clear"> Clear</label>
+                  </div>
+                
+                <br>
+                <br>
+                <!--Boton de Enviar Info-->
+                <div class="container-fluid">
+                  <!-- <input type="submit" value="Enviar" class="btn btn-primary" id="Enviar">-->
+                    <button onclick="formulario()">Enviar</button>
+
+                </div>
+                <!--Aqui termina el Formulario-->
+            </form>
+        </div>
+        <!--Aqui termina la primera columna -->
+
+        <!--Aqui inicia la segunda columna (Graficas)-->
+
+        <div class="col-sm-6 col-md-8">
+            <br>
+            <!--Aqui inicia la Primer Tabla-->
+            <script type="text/javascript">
+                google.charts.load('current', {'packages':['line']});
+                google.charts.setOnLoadCallback(drawChart);
+          
+              function drawChart() {
+          
+                var data = new google.visualization.DataTable();
+                data.addColumn('number',  'Fecha');
+                data.addColumn('number', 'Señal 1');
+                
+
+          
+                data.addRows([
+                  [0,  0]
+                ]); 
+          
+                var options = {
+                  chart: {
+                    title: 'Gráfica de la señal electromagnética',
+                  },
+                  width: 900,
+                  height: 500,
+                  axes: {
+                    x: {
+                      0: {side: 'top'}
+                    }
+                  }
+                };
+          
+                var chart = new google.charts.Line(document.getElementById('line_top_x'));
+          
+                //chart.draw(data, google.charts.Line.convertOptions(options));
+            }
+         </script>
+            <div id="line_top_x"></div>
+            <br>
+            <!--Aqui termina la Primer Tabla-->
+
+            <!--Aqui esta la segunda tabla-->
+            <script type="text/javascript">
+                google.charts.load('current', {'packages':['line']});
+                google.charts.setOnLoadCallback(drawChart2);
+          
+              function drawChart2() {
+          
+                var data = new google.visualization.DataTable();
+                data.addColumn('number', 'Fecha');
+                data.addColumn('number', 'Señal 1');
+                
+
+          
+                data.addRows([
+                  [0,  0]
+                 
+                ]); 
+                var options = {
+                  chart: {
+                    title: 'Gráfica de la señal acustica',
+                  },
+                  width: 900,
+                  height: 500,
+                  axes: {
+                    x: {
+                      0: {side: 'top'}
+                    }
+                  }
+                };
+          
+                var chart = new google.charts.Line(document.getElementById('line_top_2'));
+          
+                //chart.draw(data, google.charts.Line.convertOptions(options));
+              }
+            </script>
+            <div id="line_top_2"></div>
+            <br>
+            <!--Aqui termina la segunda tabla-->
+
+            <!--Aqui Inicia la Tercera Tabla-->
+            <script type="text/javascript">
+                google.charts.load('current', {'packages':['line']});
+                google.charts.setOnLoadCallback(drawChart3);
+         
+              function drawChart3() {
+          
+                var data = new google.visualization.DataTable();
+                data.addColumn('number', 'Fecha');
+                data.addColumn('number', 'Señal 1');
+            
+                
+                data.addRows([
+                  [0,  0]
+                  
+                ]);
+          
+                var options = {
+                  chart: {
+                    title: 'Gráfica de la señal Geo eléctrica',
+          
+                  },
+                  width: 900,
+                  height: 500,
+                  axes: {
+                    x: {
+                      0: {side: 'top'}
+                    }
+                  }
+                };
+          
+                var chart = new google.charts.Line(document.getElementById('line_top_3'));
+          
+                //chart.draw(data, google.charts.Line.convertOptions(options));
+              }
+            </script>
+            <div id="line_top_3"></div>
+            <br>
+            <!--Aqui termina la Tercer Tabla-->
+      
+      <script src="/javascripts/mongoDB.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+      <script src="https://momentjs.com/downloads/moment.js"></script>
+</body>
+</html>

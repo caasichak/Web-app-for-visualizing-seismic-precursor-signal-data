@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> pt2 </title>
+    <link rel="shortcut icon" href="/images/ipn.png" type="image/x-icon">
+    <script src="https://unpkg.com/@mongodb-js/charts-embed-dom@beta"></script>  
+    <!--Se añade la libreria de boostrap-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <link rel="stylesheet" href="/stylesheets/Graficas.css">
+    <style>
+      #chart {
+        width: 900px;
+        height: 500px;
+        margin: 0 auto;
+        border: 1px solid #ccc;
+      }
+      #chart2 {
+        width: 900px;
+        height: 500px;
+        margin: 0 auto;
+        border: 1px solid #ccc;
+      }
+      #chart3 {
+        width: 900px;
+        height: 500px;
+        margin: 0 auto;
+        border: 1px solid #ccc;
+      }
+    </style>
+</head>
+<body>
+    <!--Inicia el Encabezado usando NavBAR-->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light justify-content-center">
+        <a class="navbar-brand"><img src="images\ipn.png" width="90" height="90" class="logo" alt=""> </a>
+        <div class="collapse navbar-collapse" id="navbarNav" >
+          <ul class="navbar-nav container d-flex flex-md-row text-center justify-content-md-between align-items-center">
+            <h1>Sistema IoT para la visualización de señales asociadas a precursores símicos </h1>
+            <li class="nav-item active">
+            </li>
+          </ul>
+        </div>
+      </nav>
+    <!--Termina el Encabezado-->
+
+
+    <!--Se utiliza dos columnas, una para el formulario y una para las gráficas-->
+    <div class="row g-0">
+        <div class="col-6 col-md-4" >
+            <h4>Interfaz local para graficas señales asociadas a precursores sísmicos</h4>
+            <br>
+            <br>
+            <!--Aqui inicia el Formulario-->
+            <form id="form" action="http://localhost:9000/changood" method="">
+                <!--Se dan las instrucciones-->
+                <p text>Selecciona las opciones de acuerdo a la gráfica que deseas ver</p>
+                <br>
+                <!---Se pide la fecha-->
+                <p>Fecha: <input type="date" class="fechaesperada" name="Fecha" id="mydate" required></p>
+                
+                <br><br>
+
+                <!--Parte Electromagnética-->
+                <div>
+                 <p>Electromagnéticas</p><br>
+                </div>
+                <div class="form-check">
+                  <label><input type="radio" name="electrom" value="1" id="Ch1_EM"> CH1</label><br>
+                  <label><input type="radio" name="electrom" value="2" id="Ch2_EM"> CH2</label><br>
+                  <label><input type="radio" name="electrom" value="3" id="Ch3_EM"> CH3</label><br>
+                  <label><input type="radio" name="electrom" value="Clear1" id="Clear1"> Clear</label>
+                </div>
+                <br><br>
+
+                <!--Parte de Acusticas-->
+                <div>
+                  <p>Acusticas</p><br>
+                </div>
+                <div class="form-check2">
+                  <label><input type="radio" name="acustica" value="4" id="Ch4_Acus"> CH4</label><br>
+                  <label><input type="radio" name="acustica" value="5" id="Ch5_Acus"> CH5</label><br>
+                  <label><input type="radio" name="acustica" value="6" id="Ch6_Acus"> CH6</label><br>
+                  <label><input type="radio" name="acustica" value="Clear2" id="Clear2"> Clear</label>
+                </div>
+                <br><br>
+
+
+                    <!--Parte de Geoeléctrica-->
+                <div>
+                  <p>Geoelectricas</p><br>
+                </div>
+                <div class="form-check3">
+                  <label><input type="radio" name="geo" value="electricas" id="Ch1_geo"> CH1</label><br>
+                  <label><input type="radio" name="geo" value="Clear3" id="Clear3"> Clear</label>
+                </div>
+                
+                <br>
+                <br>
+                <!--Boton de Enviar Info-->
+                <div class="container-fluid">
+                  <!-- <input type="submit" value="Enviar" class="btn btn-primary" id="Enviar">-->
+                    <!-- <button onclick="formulario()">Enviar</button> -->
+                    <!-- <button type="submit" id="btnSend" class="btn btn-primary">Enviar</button> -->
+                    <button onclick="filter()">Grafica EM</button>
+                    <button onclick="filter2()">Grafica acustica</button>
+                    <button onclick="filter3()">Grafica Geoelectrica</button>
+                </div>
+                <!--Aqui termina el Formulario-->
+            </form>
+
+        </div>
+        
+        <!--Aqui termina la primera columna -->
+
+        <!--Aqui inicia la segunda columna (Graficas)-->
+        <div class="col-sm-6 col-md-8">
+          <br>
+          <div id="chart"></div>
+          <!--Aqui inicia la Primer Tabla-->
+          <script type="text/javascript">
+            const sdk1 = new ChartsEmbedSDK({
+              baseUrl: 'https://charts.mongodb.com/charts-ecommercedata-gfmjb',
+              showAttribution: false
+            });
+      
+            const chart1 = sdk1.createChart({ chartId: '62aacfbc-36b9-4bf8-8520-6a0ef3fc12ab'}); 
+            chart1.render(document.getElementById('chart'));
+      
+            function refresh(){
+              chart1.refresh();
+            }
+      
+            function filter(){
+              var fecha = document.getElementById("mydate");
+              if (document.getElementById("Clear1").checked){
+                chart.setFilter({"Fecha": 0});
+              }else{
+                if (document.getElementById("Ch1_EM").checked){
+                Canal = "1";
+                }
+                if (document.getElementById("Ch2_EM").checked){
+                  Canal = "2";
+                }
+                if (document.getElementById("Ch3_EM").checked){
+                  Canal = "3";
+                }
+                
+                chart1.setFilter({"Fecha": fecha.value,"Channel": Canal});
+              }
+              
+            }
+          </script>
+         
+          <br>
+          <!--Aqui termina la Primer Tabla-->
+          <div id="chart2"></div>
+          <!--Aqui inicia la Segunda Tabla-->
+          <script type="text/javascript">
+            const sdk2 = new ChartsEmbedSDK({
+              baseUrl: 'https://charts.mongodb.com/charts-ecommercedata-gfmjb',
+              showAttribution: false
+            });
+      
+            const chart2 = sdk2.createChart({ chartId: '62ac22cf-cca0-4fbb-8671-00482d33e690' }); 
+            chart2.render(document.getElementById('chart2'));
+      
+            function refresh2(){
+              chart2.refresh();
+            }
+      
+            function filter2(){
+              var fecha = document.getElementById("mydate");
+              if (document.getElementById("Clear2").checked){
+                chart2.setFilter({"Fecha": 0})
+              }else{
+                if (document.getElementById("Ch4_Acus").checked){
+                  Canal2 = "4"
+                }
+                if (document.getElementById("Ch5_Acus").checked){
+                  Canal2 = "5"
+                }
+                if (document.getElementById("Ch6_Acus").checked){
+                  Canal2 = "6"
+                }
+                chart2.setFilter({"Fecha": fecha.value,"Channel": Canal2})
+              }
+              
+            }
+          </script>
+         
+          <br>
+          <!--Aqui termina la Primer Tabla-->
+          <div id="chart3"></div>
+          <!--Aqui inicia la Segunda Tabla-->
+          <script type="text/javascript">
+            const sdk3 = new ChartsEmbedSDK({
+              baseUrl: 'https://charts.mongodb.com/charts-ecommercedata-gfmjb',
+              showAttribution: false
+            });
+      
+            const chart3 = sdk3.createChart({ chartId: '62ac2705-cca0-47b7-84b4-00482d359787' }); 
+            chart3.render(document.getElementById('chart3'));
+      
+            function refresh3(){
+              chart3.refresh3();
+            }
+      
+            function filter3(){
+              var fecha = document.getElementById("mydate");
+              if (document.getElementById("Clear3").checked){
+                chart3.setFilter({"Fecha": 0})
+              }else{
+                chart3.setFilter({"Fecha": fecha.value})
+              }
+              
+            }
+          </script>
+         
+          <br>
+        </div>      
+    </div>
+</body>
+      <script src="/javascripts/mongoDB.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+      <script src="https://momentjs.com/downloads/moment.js"></script>
+</body>
+</html>
