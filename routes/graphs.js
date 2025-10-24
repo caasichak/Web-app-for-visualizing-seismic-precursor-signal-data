@@ -7,7 +7,7 @@ const mongoose = require("mongoose");
 // });
 var db;
 //const port = process.env.PORT || 9000;
-mongoose.connect('mongodb+srv://caasichak:Issac@reportingdata.eiweoru.mongodb.net/?retryWrites=true&w=majority', function(err, database){
+mongoose.connect('', function(err, database){
     if (err) return console.log(err);
     db=database;
     //app.listen(port, ()=> console.log('sever listening on port',port));
